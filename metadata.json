@@ -1,0 +1,7 @@
+{
+  "name": "Copy of 12. TBD - Hệ thống Quản lý Trang thiết bị",
+  "description": "Hệ thống quản lý trang thiết bị chuyên nghiệp dành cho trường đại học TBD với phân quyền RBAC, quản lý người dùng và cấu hình hệ thống.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
