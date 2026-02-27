@@ -10,20 +10,28 @@ import {
   INITIAL_CATEGORIES,
 } from '@/constants';
 import { userService } from '@/services/userService';
-import { UserManagementPage } from '@/features/users/pages/UserManagementPage';
+
+// Layout
 import Layout from '@/components/layout/Layout';
-import Dashboard from '@/pages/Dashboard';
-import Profile from '@/pages/Profile';
+
+// ✅ Refactored Feature Pages
+import { DashboardPage } from '@/features/dashboard/pages/DashboardPage';
+import { ProfilePage } from '@/features/profile/pages/ProfilePage';
+import { DepartmentsPage } from '@/features/departments/pages/DepartmentsPage';
+import { SuppliersPage } from '@/features/suppliers/pages/SuppliersPage';
+import { AssetManagementPage } from '@/features/assets/pages/AssetManagementPage';
+import { UserManagementPage } from '@/features/users/pages/UserManagementPage';
+
+// ✅ More refactored features
+import { CategoriesPage } from '@/features/categories/pages/CategoriesPage';
+import { AllocationsPage } from '@/features/allocations/pages/AllocationsPage';
+import { MaintenancePage } from '@/features/maintenance';
+import { TransfersPage } from '@/features/transfers';
+import { RetiredAssetsPage } from '@/features/retired';
+import { AssetDetailPage } from '@/features/asset-detail';
+
+// ⚠️ Keep SystemSettings (wrapper only)
 import SystemSettings from '@/pages/SystemSettings';
-import AssetManagement from '@/pages/AssetManagement';
-import DepartmentManagement from '@/pages/DepartmentManagement';
-import SupplierManagement from '@/pages/SupplierManagement';
-import CategoryManagement from '@/pages/CategoryManagement';
-import AssetDetail from '@/pages/AssetDetail';
-import TransferManagement from '@/pages/TransferManagement';
-import MaintenanceManagement from '@/pages/MaintenanceManagement';
-import AllocationManagement from '@/pages/AllocationManagement';
-import RetiredAssets from '@/pages/RetiredAssets';
 
 const App: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -237,16 +245,125 @@ const App: React.FC = () => {
     <HashRouter>
       <Layout user={currentUser} onLogout={handleLogout}>
         <Routes>
-          <Route path="/" element={<Dashboard assets={assets} />} />
-          <Route path="/assets" element={<AssetManagement assets={assets} setAssets={setAssets} departments={departments} suppliers={suppliers} categories={categories} />} />
-          <Route path="/assets/:id" element={<AssetDetail assets={assets} setAssets={setAssets} departments={departments} suppliers={suppliers} user={currentUser} />} />
-          <Route path="/allocations" element={<AllocationManagement assets={assets} setAssets={setAssets} departments={departments} user={currentUser} />} />
-          <Route path="/maintenance" element={<MaintenanceManagement assets={assets} setAssets={setAssets} departments={departments} user={currentUser} />} />
-          <Route path="/transfers" element={<TransferManagement role={currentUser.role} assets={assets} setAssets={setAssets} departments={departments} user={currentUser} />} />
-          <Route path="/retired" element={<RetiredAssets assets={assets} />} />
-          <Route path="/units" element={<DepartmentManagement departments={departments} setDepartments={setDepartments} />} />
-          <Route path="/suppliers" element={<SupplierManagement suppliers={suppliers} setSuppliers={setSuppliers} assets={assets} />} />
-          <Route path="/categories" element={<CategoryManagement categories={categories} setCategories={setCategories} assets={assets} />} />
+          {/* ✅ Refactored Routes */}
+          <Route path="/" element={<DashboardPage assets={assets} />} />
+          
+          <Route 
+            path="/assets" 
+            element={
+              <AssetManagementPage 
+                assets={assets} 
+                setAssets={setAssets} 
+                departments={departments} 
+                suppliers={suppliers} 
+                categories={categories} 
+              />
+            } 
+          />
+          
+          <Route 
+            path="/units" 
+            element={
+              <DepartmentsPage 
+                departments={departments} 
+                setDepartments={setDepartments} 
+              />
+            } 
+          />
+          
+          <Route 
+            path="/suppliers" 
+            element={
+              <SuppliersPage 
+                suppliers={suppliers} 
+                setSuppliers={setSuppliers} 
+                assets={assets} 
+              />
+            } 
+          />
+          
+          <Route 
+            path="/profile" 
+            element={
+              <ProfilePage 
+                user={currentUser} 
+                onUpdate={u => {
+                  setCurrentUser(u);
+                  setUsers(prev => prev.map(usr => usr.id === u.id ? u : usr));
+                }} 
+              />
+            } 
+          />
+
+          <Route 
+            path="/categories" 
+            element={
+              <CategoriesPage 
+                categories={categories} 
+                setCategories={setCategories} 
+                assets={assets} 
+              />
+            } 
+          />
+          
+          <Route 
+            path="/allocations" 
+            element={
+              <AllocationsPage 
+                assets={assets} 
+                setAssets={setAssets} 
+                departments={departments} 
+                user={currentUser} 
+              />
+            } 
+          />
+          
+          <Route 
+            path="/maintenance" 
+            element={
+              <MaintenancePage 
+                assets={assets} 
+                setAssets={setAssets} 
+                departments={departments} 
+                user={currentUser} 
+              />
+            } 
+          />
+          
+          <Route 
+            path="/transfers" 
+            element={
+              <TransfersPage 
+                role={currentUser.role} 
+                assets={assets} 
+                setAssets={setAssets} 
+                departments={departments} 
+                user={currentUser} 
+              />
+            } 
+          />
+          
+          <Route 
+            path="/retired" 
+            element={
+              <RetiredAssetsPage assets={assets} />
+            } 
+          />
+          
+          <Route 
+            path="/assets/:id" 
+            element={
+              <AssetDetailPage 
+                assets={assets} 
+                setAssets={setAssets} 
+                departments={departments} 
+                suppliers={suppliers} 
+                user={currentUser} 
+              />
+            } 
+          />
+
+          {/* SystemSettings - Wrapper only */}
           <Route
             path="/settings"
             element={
@@ -264,10 +381,7 @@ const App: React.FC = () => {
               />
             }
           />
-          <Route path="/profile" element={<Profile user={currentUser} onUpdate={u => {
-            setCurrentUser(u);
-            setUsers(prev => prev.map(usr => usr.id === u.id ? u : usr));
-          }} />} />
+          
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Layout>
