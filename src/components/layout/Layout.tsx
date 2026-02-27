@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { User, UserRole } from '@/shared/types';
+import { User, UserRole } from '@/types';
 
 interface LayoutProps {
   children: React.ReactNode;

@@ -1,8 +1,16 @@
 
 import React, { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { User, UserRole, Asset, Department, Supplier, AssetCategory } from '@/shared/types';
-import { INITIAL_USERS, INITIAL_ASSETS, INITIAL_DEPARTMENTS, INITIAL_SUPPLIERS, INITIAL_CATEGORIES } from '@/shared/constants';
+import { User, UserRole, Asset, Department, Supplier, AssetCategory } from '@/types';
+import {
+  INITIAL_USERS,
+  INITIAL_ASSETS,
+  INITIAL_DEPARTMENTS,
+  INITIAL_SUPPLIERS,
+  INITIAL_CATEGORIES,
+} from '@/constants';
+import { userService } from '@/services/userService';
+import { UserManagementPage } from '@/features/users/pages/UserManagementPage';
 import Layout from '@/components/layout/Layout';
 import Dashboard from '@/pages/Dashboard';
 import Profile from '@/pages/Profile';
@@ -49,6 +57,30 @@ const App: React.FC = () => {
   useEffect(() => {
     localStorage.setItem('uniasset_users_list', JSON.stringify(users));
   }, [users]);
+
+  const handleCreateUser = (
+    input: Omit<User, 'id' | 'avatar' | 'createdAt' | 'isLocked'>,
+  ) => {
+    setUsers(prev => [...prev, userService.createUser(input)]);
+  };
+
+  const handleUpdateUser = (userId: string, patch: Partial<User>) => {
+    setUsers(prev =>
+      prev.map(u => (u.id === userId ? userService.updateUser(u, patch) : u)),
+    );
+  };
+
+  const handleDeleteUser = (userId: string) => {
+    if (window.confirm('Bạn có chắc chắn muốn xóa người dùng này?')) {
+      setUsers(prev => prev.filter(u => u.id !== userId));
+    }
+  };
+
+  const handleToggleUserLock = (userId: string) => {
+    setUsers(prev =>
+      prev.map(u => (u.id === userId ? userService.toggleLock(u) : u)),
+    );
+  };
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -215,7 +247,23 @@ const App: React.FC = () => {
           <Route path="/units" element={<DepartmentManagement departments={departments} setDepartments={setDepartments} />} />
           <Route path="/suppliers" element={<SupplierManagement suppliers={suppliers} setSuppliers={setSuppliers} assets={assets} />} />
           <Route path="/categories" element={<CategoryManagement categories={categories} setCategories={setCategories} assets={assets} />} />
-          <Route path="/settings" element={<SystemSettings users={users} setUsers={setUsers} />} />
+          <Route
+            path="/settings"
+            element={
+              <SystemSettings
+                users={users}
+                renderUserManagement={({ users: settingsUsers }) => (
+                  <UserManagementPage
+                    users={settingsUsers}
+                    onCreateUser={handleCreateUser}
+                    onUpdateUser={handleUpdateUser}
+                    onDeleteUser={handleDeleteUser}
+                    onToggleUserLock={handleToggleUserLock}
+                  />
+                )}
+              />
+            }
+          />
           <Route path="/profile" element={<Profile user={currentUser} onUpdate={u => {
             setCurrentUser(u);
             setUsers(prev => prev.map(usr => usr.id === u.id ? u : usr));

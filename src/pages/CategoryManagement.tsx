@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { AssetCategory, Asset } from '@/shared/types';
+import { AssetCategory, Asset } from '@/types';
 
 interface CategoryManagementProps {
   categories: AssetCategory[];

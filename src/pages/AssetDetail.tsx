@@ -1,7 +1,7 @@
 
 import React, { useMemo, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Asset, Department, AssetItemStatus, User, Supplier } from '@/shared/types';
+import { Asset, Department, AssetItemStatus, User, Supplier } from '@/types';
 
 interface AssetDetailProps {
   assets: Asset[];

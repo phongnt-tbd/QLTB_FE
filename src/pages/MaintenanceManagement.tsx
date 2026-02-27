@@ -1,6 +1,6 @@
 
 import React, { useMemo, useState } from 'react';
-import { Asset, AssetItemStatus, Department, User, LifecycleEvent } from '@/shared/types';
+import { Asset, AssetItemStatus, Department, User, LifecycleEvent } from '@/types';
 import { Link } from 'react-router-dom';
 
 interface MaintenanceManagementProps {

@@ -1,8 +1,7 @@
-
 export enum UserRole {
   SYSTEM_ADMIN = 'System Admin',
   ASSET_MANAGER = 'Asset Manager',
-  TECHNICIAN = 'Technician'
+  TECHNICIAN = 'Technician',
 }
 
 export enum AssetItemStatus {
@@ -10,7 +9,7 @@ export enum AssetItemStatus {
   ALLOCATED = 'Đang sử dụng',
   MAINTENANCE = 'Bảo trì',
   DAMAGED = 'Đã hỏng',
-  RETIRED = 'Thanh lý'
+  RETIRED = 'Thanh lý',
 }
 
 export interface User {
@@ -119,3 +118,4 @@ export interface TransferRequest {
   requestedAt: string;
   status: 'Pending' | 'Approved' | 'Rejected';
 }
+

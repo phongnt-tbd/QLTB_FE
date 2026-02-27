@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo, useRef } from 'react';
-import { Asset, AssetItem, AssetItemStatus, Department, User, LifecycleEvent } from '@/shared/types';
-import { INITIAL_USERS } from '@/shared/constants';
+import { Asset, AssetItem, AssetItemStatus, Department, User, LifecycleEvent } from '@/types';
+import { INITIAL_USERS } from '@/constants';
 
 interface AllocationManagementProps {
   assets: Asset[];

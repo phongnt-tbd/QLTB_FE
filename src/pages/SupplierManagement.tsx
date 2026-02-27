@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Supplier, Asset } from '@/shared/types';
+import { Supplier, Asset } from '@/types';
 
 interface SupplierManagementProps {
   suppliers: Supplier[];

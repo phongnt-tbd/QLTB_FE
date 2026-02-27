@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Asset, AssetItemStatus } from '@/shared/types';
+import { Asset, AssetItemStatus } from '@/types';
 
 interface DashboardProps {
   assets: Asset[];

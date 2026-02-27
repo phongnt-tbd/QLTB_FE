@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Asset, Department, Supplier, AssetItem, AssetItemStatus, UserRole, LifecycleEvent, AssetCategory } from '@/shared/types';
+import { Asset, Department, Supplier, AssetItem, AssetItemStatus, UserRole, LifecycleEvent, AssetCategory } from '@/types';
 
 interface AssetManagementProps {
   assets: Asset[];

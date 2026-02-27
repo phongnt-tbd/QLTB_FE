@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { User } from '@/shared/types';
+import { User } from '@/types';
 
 interface ProfileProps {
   user: User;

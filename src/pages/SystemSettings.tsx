@@ -1,15 +1,14 @@
 
 import React, { useState } from 'react';
-import { UserRole, PermissionConfig, SystemConfig, User } from '@/shared/types';
-import { INITIAL_PERMISSIONS, INITIAL_SYSTEM_CONFIG } from '@/shared/constants';
-import UserManagement from './UserManagement';
+import { UserRole, PermissionConfig, SystemConfig, User } from '@/types';
+import { INITIAL_PERMISSIONS, INITIAL_SYSTEM_CONFIG } from '@/constants';
 
 interface SystemSettingsProps {
   users: User[];
-  setUsers: React.Dispatch<React.SetStateAction<User[]>>;
+  renderUserManagement?: (args: { users: User[] }) => React.ReactNode;
 }
 
-const SystemSettings: React.FC<SystemSettingsProps> = ({ users, setUsers }) => {
+const SystemSettings: React.FC<SystemSettingsProps> = ({ users, renderUserManagement }) => {
   const [permissions, setPermissions] = useState<PermissionConfig[]>(INITIAL_PERMISSIONS);
   const [sysConfig, setSysConfig] = useState<SystemConfig>(INITIAL_SYSTEM_CONFIG);
   const [activeTab, setActiveTab] = useState<'rbac' | 'system' | 'users'>('rbac');
@@ -104,7 +103,7 @@ const SystemSettings: React.FC<SystemSettingsProps> = ({ users, setUsers }) => {
             <h3 className="text-xl font-black text-slate-900 mb-8 flex items-center tracking-tight px-4 md:px-0">
               <i className="fas fa-users-cog mr-3 text-indigo-600"></i> Quản lý Nhân sự & Tài khoản
             </h3>
-            <UserManagement users={users} setUsers={setUsers} />
+            {renderUserManagement ? renderUserManagement({ users }) : null}
           </div>
         )}
 

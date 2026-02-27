@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Department } from '@/shared/types';
+import { Department } from '@/types';
 
 interface DepartmentManagementProps {
   departments: Department[];

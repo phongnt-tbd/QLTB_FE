@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo } from 'react';
-import { UserRole, Asset, Department, User, LifecycleEvent, AssetItemStatus } from '@/shared/types';
+import { UserRole, Asset, Department, User, LifecycleEvent, AssetItemStatus } from '@/types';
 
 interface TransferProps {
   role: UserRole;
